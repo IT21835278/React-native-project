@@ -1,33 +1,28 @@
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
 
 export default function App() {
   const [name,setName] = useState('pasan')
-  const [person,setPerson] = useState({
-    pname:'Jhone',
-    age:20
-  })
+  const [age,setage] = useState('20')
 
   const clickHandler = () =>{
     setName('Ranshika')
-    setPerson({
-      pname:'whick',
-      age:30
-    })
+    setage('50')
+
   }
 
   const reFresh=()=>{
-    setName('Pasan')
-    setPerson({
-      pname:'Jhone',
-    age:20
-    })
+    setName('pasan')
+    setage('20')
   }
   return (
     <View style={styles.container}>
+      <TextInput multiline keyboardType='numeric' style={styles.input} placeholder='Enter name'  onChangeText={(val)=>setName(val)}/>
+      <TextInput style={styles.input} placeholder='Enter age' onChangeText={(val)=>setage(val)}/>
+
       <Text>My name is {name}</Text>
-      <Text>2nd state {person.pname} and age {person.age}</Text>
+      <Text>Age: {age}</Text>
       <View style={styles.buttonContainer}>
         <Button title='Update Status' onPress={clickHandler}/>
         <Button title='Refresh' onPress={reFresh}/>
@@ -47,5 +42,13 @@ const styles = StyleSheet.create({
   buttonContainer:{
     marginTop:20
     
-  }
+  },
+  input:{
+    borderWidth:1,
+    borderColor:'#777',
+    padding:0,
+    margin:10,
+    width:300
+
+   }
 });
