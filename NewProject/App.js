@@ -1,33 +1,50 @@
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
-import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Button, FlatList, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 export default function App() {
-  const [name,setName] = useState('pasan')
-  const [age,setage] = useState('20')
+  const [people,setPeople] = useState([
+    {name:"n1" , key:1},
+    {name:"n3" , key:3},
+    {name:"n4" , key:4},
+    {name:"n5" , key:5},
+    {name:"n6" , key:6},
+    {name:"n7" , key:7},
+    {name:"n8" , key:8},
+    {name:"n9" , key:9},
+    {name:"n10" , key:10},
+    {name:"n11" , key:11},
 
-  const clickHandler = () =>{
-    setName('Ranshika')
-    setage('50')
+  ])
 
+  const pressHandler=(key)=>{
+    console.log(key);
+    setPeople((prevPeople)=>{
+      return prevPeople.filter(person=>person.key !=key)
+    })
   }
-
-  const reFresh=()=>{
-    setName('pasan')
-    setage('20')
-  }
+  
   return (
     <View style={styles.container}>
-      <TextInput multiline keyboardType='numeric' style={styles.input} placeholder='Enter name'  onChangeText={(val)=>setName(val)}/>
-      <TextInput style={styles.input} placeholder='Enter age' onChangeText={(val)=>setage(val)}/>
 
-      <Text>My name is {name}</Text>
-      <Text>Age: {age}</Text>
-      <View style={styles.buttonContainer}>
-        <Button title='Update Status' onPress={clickHandler}/>
-        <Button title='Refresh' onPress={reFresh}/>
-      </View>
-      <StatusBar style="auto" />
+      <FlatList 
+        numColumns={2}
+        keyExtractor={(item)=>item.key}
+        data={people}
+        renderItem={({item})=>(
+          <TouchableOpacity onPress={()=>pressHandler(item.key)}>
+            <Text style={styles.item}>{item.name}</Text>
+          </TouchableOpacity>
+        )}
+      />
+      {/* <ScrollView>
+        {people.map((item)=>(
+            <View key={item.key}>
+              <Text style={styles.item}>{item.name}</Text>
+            </View>
+          
+        ))}
+      </ScrollView> */}
     </View>
   );
 }
@@ -36,12 +53,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  buttonContainer:{
-    marginTop:20
-    
+  //   alignItems: 'center',
+  //   justifyContent: 'center',
   },
   input:{
     borderWidth:1,
@@ -50,5 +63,13 @@ const styles = StyleSheet.create({
     margin:10,
     width:300
 
+   },
+   item:{
+    marginTop:24,
+    padding:30,
+    backgroundColor:'pink',
+    fontSize:25,
+    marginHorizontal:10,
+    marginTop:24
    }
 });
